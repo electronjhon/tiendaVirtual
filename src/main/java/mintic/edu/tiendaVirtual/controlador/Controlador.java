@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mintic.edu.tiendaVirtual.modelo.Cliente;
 import mintic.edu.tiendaVirtual.modelo.ClienteDAO;
+import mintic.edu.tiendaVirtual.modelo.Proveedor;
+import mintic.edu.tiendaVirtual.modelo.ProveedorDAO;
 import mintic.edu.tiendaVirtual.modelo.Usuario;
 import mintic.edu.tiendaVirtual.modelo.UsuarioDAO;
 
@@ -23,6 +25,8 @@ public class Controlador extends HttpServlet {
     UsuarioDAO usuarioDao = new UsuarioDAO();
     Cliente cliente = new Cliente();
     ClienteDAO clienteDao = new ClienteDAO();
+    Proveedor proveedor = new Proveedor();
+    ProveedorDAO proveedorDAO = new ProveedorDAO();
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -140,6 +144,62 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("jsp/cliente.jsp").forward(request, response);
 
         }
+        
+        if (menu.equals("Proveedores")) {
+            switch (accion) {
+                case "Listar":
+                    String tipos [] = {"Administrador","Vendedor"}; 
+                    request.setAttribute("proveedores", proveedorDAO.getProveedores());
+                    request.setAttribute("tipos", tipos);
+                    request.setAttribute("proveedorEdit", new Proveedor());
+                    break;
+                case "Agregar":
+                    int idProveedor = Integer.parseInt(request.getParameter("txtId"));
+                    String nombreProveedor = request.getParameter("txtNombre");
+                    String direccionProveedor = request.getParameter("txtDireccion");
+                    String telefonoProveedor = request.getParameter("txtTelefono");
+                    String ciudadProveedor = request.getParameter("txtCiudad");
+                    proveedor.setIdProveedor(idProveedor);
+                    proveedor.setNombreProveedor(nombreProveedor);
+                    proveedor.setDireccionProveedor(direccionProveedor);
+                    proveedor.setTelefonoProveedor(telefonoProveedor);
+                    proveedor.setCiudadProveedor(ciudadProveedor);
+                    proveedorDAO.agregarProveedor(proveedor);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                case "Editar":
+                    int idec = Integer.valueOf(request.getParameter("id"));
+                    Proveedor pro = new Proveedor();
+                    pro = proveedorDAO.getProveedorId(idec);
+                    request.setAttribute("proveedorEdit", pro);
+                    break;
+                case "Actualizar":
+                    int idProveedora = Integer.parseInt(request.getParameter("txtId"));
+                    String nombreProveedora = request.getParameter("txtNombre");
+                    String direccionProveedora = request.getParameter("txtDireccion");
+                    String telefonoProveedora = request.getParameter("txtTelefono");
+                    String ciudadProveedora = request.getParameter("txtCiudad");
+                    proveedor.setIdProveedor(idProveedora);
+                    proveedor.setNombreProveedor(nombreProveedora);
+                    proveedor.setDireccionProveedor(direccionProveedora);
+                    proveedor.setTelefonoProveedor(telefonoProveedora);
+                    proveedor.setCiudadProveedor(ciudadProveedora);
+                    proveedorDAO.actualizarProveedor(proveedor);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                case "Eliminar":
+                    int idProveedore = Integer.valueOf(request.getParameter("id"));
+                    proveedorDAO.eliminarProveedor(idProveedore);
+                    request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            request.getRequestDispatcher("jsp/proveedor.jsp").forward(request, response);
+
+        }
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
