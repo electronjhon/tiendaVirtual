@@ -27,6 +27,7 @@ public class Controlador extends HttpServlet {
     ClienteDAO clienteDao = new ClienteDAO();
     Proveedor proveedor = new Proveedor();
     ProveedorDAO proveedorDAO = new ProveedorDAO();
+    String mensaje = null, aviso = null;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,6 +55,16 @@ public class Controlador extends HttpServlet {
                     usuario.setClave(clave);
                     usuario.setTipoUsuario(tipoUsuario);
                     usuarioDao.agregarUsuario(usuario);
+                    boolean creado = usuarioDao.agregarUsuario(usuario);
+                    if (creado) {
+                        mensaje = "Usuario creado exitosamente";
+                        aviso = null;
+                    } else {
+                        aviso = "Error, cédula de usuario ya existe";
+                        mensaje = null;
+                    }
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
                     request.getRequestDispatcher("Controlador?menu=Usuarios&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
@@ -83,9 +94,6 @@ public class Controlador extends HttpServlet {
                     usuario.setNombreUsuario(nombreUsuarioa);
                     usuario.setClave(clavea);
                     usuario.setTipoUsuario(tipoUsuarioa);
-                    usuarioDao.actualizarUsuario(usuario);
-                    request.getRequestDispatcher("Controlador?menu=Usuarios&accion=Listar").forward(request, response);
-                    break;
                 case "Eliminar":
                     int idUsuarioe = Integer.valueOf(request.getParameter("id"));
                     usuarioDao.eliminarUsuario(idUsuarioe);
@@ -116,7 +124,16 @@ public class Controlador extends HttpServlet {
                     cliente.setCorreoCliente(correoCliente);
                     cliente.setDireccionCliente(direccionCliente);
                     cliente.setTelefonoCliente(telefonoCliente);
-                    clienteDao.agregarCliente(cliente);
+                    boolean creado = clienteDao.agregarCliente(cliente);
+                    if (creado) {
+                        mensaje = "Cliente creado exitosamente";
+                        aviso = null;
+                    } else {
+                        aviso = "Error, cédula de cliente ya existe";
+                        mensaje = null;
+                    }
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
@@ -176,7 +193,16 @@ public class Controlador extends HttpServlet {
                     proveedor.setDireccionProveedor(direccionProveedor);
                     proveedor.setTelefonoProveedor(telefonoProveedor);
                     proveedor.setCiudadProveedor(ciudadProveedor);
-                    proveedorDAO.agregarProveedor(proveedor);
+                    boolean creado = proveedorDAO.agregarProveedor(proveedor);
+                    if (creado) {
+                        mensaje = "Proveedor creado exitosamente";
+                        aviso = null;
+                    } else {
+                        aviso = "Error, NIT de proveedor ya existe";
+                        mensaje = null;
+                    }
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
                     request.getRequestDispatcher("Controlador?menu=Proveedores&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
