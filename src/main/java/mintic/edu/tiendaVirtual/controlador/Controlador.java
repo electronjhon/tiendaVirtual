@@ -64,6 +64,12 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("usuarioEdit", usu);
                     request.setAttribute("categorias", categorias);
                     break;
+                case "Consultar":
+                    int idac = Integer.valueOf(request.getParameter("txtId"));
+                    Usuario consU = new Usuario();
+                    consU = usuarioDao.getUsuarioCedula(idac);
+                    request.setAttribute("usuarioEdit", consU);
+                    break;
                 case "Actualizar":
                     int idUsuarioa = Integer.parseInt(request.getParameter("txtId"));
                     String nombreCompletoa = request.getParameter("txtNombre");
@@ -119,6 +125,12 @@ public class Controlador extends HttpServlet {
                     cli = clienteDao.getClienteId(idec);
                     request.setAttribute("clienteEdit", cli);
                     break;
+                case "Consultar":
+                    int idcc = Integer.valueOf(request.getParameter("txtId"));
+                    Cliente consC = new Cliente();
+                    consC = clienteDao.getClienteCedula(idcc);
+                    request.setAttribute("clienteEdit", consC);
+                    break;
                 case "Actualizar":
                     int idClientea = Integer.parseInt(request.getParameter("txtId"));
                     String nombreClientea = request.getParameter("txtNombre");
@@ -172,6 +184,12 @@ public class Controlador extends HttpServlet {
                     Proveedor pro = new Proveedor();
                     pro = proveedorDAO.getProveedorId(idec);
                     request.setAttribute("proveedorEdit", pro);
+                    break;
+                case "Consultar":
+                    int idcp = Integer.valueOf(request.getParameter("txtId"));
+                    Proveedor consP = new Proveedor();
+                    consP = proveedorDAO.getProveedorNit(idcp);
+                    request.setAttribute("proveedorEdit", consP);
                     break;
                 case "Actualizar":
                     int idProveedora = Integer.parseInt(request.getParameter("txtId"));

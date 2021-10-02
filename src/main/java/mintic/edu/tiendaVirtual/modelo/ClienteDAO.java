@@ -144,6 +144,30 @@ public class ClienteDAO {
         }
         return cli;
     }
+    
+    public Cliente getClienteCedula(int id) {
+        String sql = "SELECT * FROM cliente WHERE idCliente=" + id;
+        Cliente clic = new Cliente();
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            res = ps.executeQuery();
+            while (res.next()) {
+                clic.setIdCliente(res.getInt(1));
+                clic.setNombreCliente(res.getString(2));
+                clic.setCorreoCliente(res.getString(3));
+                clic.setDireccionCliente(res.getString(4));
+                clic.setTelefonoCliente(res.getString(5));
+            }
+            // cerramos el jdbc
+            stm.close();
+            res.close();
+            con.close();
+        } catch (SQLException er) {
+            System.err.println("Error:" + er);
+        }
+        return clic;
+    }
 
     public boolean actualizarCliente(Cliente cliente) {
         boolean encontrado = false;

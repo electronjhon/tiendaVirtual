@@ -138,6 +138,30 @@ public class ProveedorDAO {
         }
         return pro;
     }
+    
+    public Proveedor getProveedorNit(int id) {
+        String sql = "SELECT * FROM proveedor WHERE idProveedor=" + id;
+        Proveedor proc = new Proveedor();
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            res = ps.executeQuery();
+            while (res.next()) {
+                proc.setIdProveedor(res.getInt(1));
+                proc.setNombreProveedor(res.getString(2));
+                proc.setDireccionProveedor(res.getString(3));
+                proc.setTelefonoProveedor(res.getString(4));
+                proc.setCiudadProveedor(res.getString(5));
+            }
+            // cerramos el jdbc
+            stm.close();
+            res.close();
+            con.close();
+        } catch (SQLException er) {
+            System.err.println("Error:" + er);
+        }
+        return proc;
+    }
 
     public boolean actualizarProveedor(Proveedor proveedor) {
         boolean encontrado = false;

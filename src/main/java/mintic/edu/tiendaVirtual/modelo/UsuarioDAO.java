@@ -144,6 +144,31 @@ public class UsuarioDAO {
         }
         return usu;
     }
+    
+    public Usuario getUsuarioCedula(int id) {
+        String sql = "SELECT * FROM usuario WHERE idUsuario=" + id;
+        Usuario usuc = new Usuario();
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            res = ps.executeQuery();
+            while (res.next()) {
+                usuc.setIdUsuario(res.getInt(1));
+                usuc.setNombreCompleto(res.getString(2));
+                usuc.setCorreo(res.getString(3));
+                usuc.setNombreUsuario(res.getString(4));
+                usuc.setClave(res.getString(5));
+                usuc.setTipoUsuario(res.getString(6));
+            }
+            // cerramos el jdbc
+            stm.close();
+            res.close();
+            con.close();
+        } catch (SQLException er) {
+            System.err.println("Error:" + er);
+        }
+        return usuc;
+    }
 
     public boolean actualizarUsuario(Usuario usuario) {
         boolean encontrado = false;

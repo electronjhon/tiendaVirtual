@@ -24,6 +24,10 @@
                             </c:if>
                             <c:if test="${usuarioEdit.idUsuario==0}">
                                 <input  type="text" name="txtId" class="form-control" placeholder="campo obligatorio" >
+                            <form action="Controlador?menu=Usuarios" method="POST">
+                                <button type="submit" class="btn btn-primary btn-sm" name="accion" value="Consultar" >
+                                <a class="btn btn-primary btn-sm" href="../Controlador?menu=Usuarios&accion=Listar">Consultar</a>
+                            </form>
                                 <div class="valid-feedback">Campo OK</div>
                                 <div class="invalid-feedback">Complete los datos</div>
                             </c:if>
@@ -139,5 +143,6 @@
         })
         })()
     </script>
+   
     </body>
 </html>
