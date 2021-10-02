@@ -65,7 +65,7 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("categorias", categorias);
                     break;
                 case "Consultar":
-                    int idac = Integer.valueOf(request.getParameter("txtId"));
+                    int idac = Integer.valueOf(request.getParameter("txtBuscar"));
                     Usuario consU = new Usuario();
                     consU = usuarioDao.getUsuarioCedula(idac);
                     request.setAttribute("usuarioEdit", consU);
@@ -126,7 +126,7 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("clienteEdit", cli);
                     break;
                 case "Consultar":
-                    int idcc = Integer.valueOf(request.getParameter("txtId"));
+                    int idcc = Integer.valueOf(request.getParameter("txtBuscar"));
                     Cliente consC = new Cliente();
                     consC = clienteDao.getClienteCedula(idcc);
                     request.setAttribute("clienteEdit", consC);
@@ -186,7 +186,7 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("proveedorEdit", pro);
                     break;
                 case "Consultar":
-                    int idcp = Integer.valueOf(request.getParameter("txtId"));
+                    int idcp = Integer.valueOf(request.getParameter("txtBuscar"));
                     Proveedor consP = new Proveedor();
                     consP = proveedorDAO.getProveedorNit(idcp);
                     request.setAttribute("proveedorEdit", consP);

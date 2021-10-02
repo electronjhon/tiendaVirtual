@@ -30,10 +30,6 @@
                             </c:if>
                             <c:if test="${proveedorEdit.idProveedor==0}">
                                 <input  type="text" name="txtId" class="form-control" placeholder="campo obligatorio" >
-                            <form action="Controlador?menu=Proveedores" method="POST">
-                                <button type="submit" class="btn btn-primary btn-sm" name="accion" value="Consultar" >
-                                <a class="btn btn-primary btn-sm" href="../Controlador?menu=Proveedores&accion=Listar">Consultar</a>
-                            </form>
                                 <div class="valid-feedback">Campo OK</div>
                                 <div class="invalid-feedback">Complete los datos</div>
                             </c:if>
@@ -71,6 +67,19 @@
                         <input type="submit" name="accion" value="Actualizar" class="btn btn-success" >
                     </form>
                 </div>
+            <form action="Controlador?menu=Proveedores" method="POST" class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <span class="form-text">
+                        Actualizar por NIT de preveedor
+                    </span>
+                    <input type="text" name="txtBuscar" value="${proveedorEdit.idProveedor}" class="form-control" placeholder="Ingrese cédula">
+                </div>
+                <div class="col-auto">
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-sm" name="accion" value="Consultar" >
+                    <a class="btn btn-primary btn-sm" href="../Controlador?menu=Proveedores&accion=Listar">Consultar</a>
+                </div>
+            </form>
             </div>
             <div class="col-sm-8">
                 <table class="table table-hover">

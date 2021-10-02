@@ -26,10 +26,7 @@
                             </c:if>
                             <c:if test="${clienteEdit.idCliente==0}">
                                 <input  type="text" name="txtId" class="form-control" placeholder="campo obligatorio" >
-                            <form action="Controlador?menu=Clientes" method="POST">
-                                <button type="submit" class="btn btn-primary btn-sm" name="accion" value="Consultar" >
-                                <a class="btn btn-primary btn-sm" href="../Controlador?menu=Clientes&accion=Listar">Consultar</a>
-                            </form>
+                            
                                 <div class="valid-feedback">Campo OK</div>
                                 <div class="invalid-feedback">Complete los datos</div>
                             </c:if>
@@ -67,6 +64,19 @@
                         <input type="submit" name="accion" value="Actualizar" class="btn btn-success" >
                     </form>
                 </div>
+            <form action="Controlador?menu=Clientes" method="POST" class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <span class="form-text">
+                        Actualizar por cédula de cliente
+                    </span>
+                    <input type="text" name="txtBuscar" value="${clienteEdit.idCliente}" class="form-control" placeholder="Ingrese cédula">
+                </div>
+                <div class="col-auto">
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-sm" name="accion" value="Consultar" >
+                    <a class="btn btn-primary btn-sm" href="../Controlador?menu=Clientes&accion=Listar">Consultar</a>
+                </div>
+            </form>
             </div>
             <div class="col-sm-8">
                 <table class="table table-hover">
@@ -99,7 +109,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>               
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" 
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" 
         crossorigin="anonymous"></script>
