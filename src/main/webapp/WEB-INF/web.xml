@@ -8,6 +8,10 @@
         <servlet-name>Controlador</servlet-name>
         <servlet-class>mintic.edu.tiendaVirtual.controlador.Controlador</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CargaArchivo</servlet-name>
+        <servlet-class>mintic.edu.tiendaVirtual.controlador.CargaArchivo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>Controlador</servlet-name>
         <url-pattern>/Controlador</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargaArchivo</servlet-name>
+        <url-pattern>/CargaArchivo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

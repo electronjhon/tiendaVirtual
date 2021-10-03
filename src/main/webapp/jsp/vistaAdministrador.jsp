@@ -42,10 +42,18 @@
                         <a style= "margin-left: 10px; border:none;"  class="btn btn-outline-light" href="../Controlador?menu=Proveedores&accion=Listar" 
                            target="myFrame">Proveedores</a>
                     </li>
-                    <li class="nav-item">
-                        <a style= "margin-left: 10px; border:none;"  class="btn btn-outline-light" href="proximamente.html" 
-                           target="myFrame">Productos</a>
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Productos
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" class="btn btn-outline-light" href="#" target="myFrame">Listar Productos</a>
+                            <a class="dropdown-item" class="btn btn-outline-light" href="cargaProductos.html" target="myFrame">Cargar Archivo</a>
+
+                        </div>
                     </li>
+                     
                     <li class="nav-item">
                         <a style= "margin-left: 10px; border:none;"  class="btn btn-outline-light" href="proximamente.html" 
                            target="myFrame">Ventas</a>
