@@ -22,8 +22,8 @@ public class ProductoDAO {
     PreparedStatement ps = null;
     
     public boolean agregarProducto(Producto producto) {
-        boolean registrar = false; // Permite identificar si ya existe el usuario
-        boolean encontrado = false; // Encuentra un usuario con el correo Institucional
+        boolean registrar = false; // Permite identificar si ya existe el producto
+        boolean encontrado = false; // Encuentra un producto en la lista de productos
         String buscar = "SELECT * FROM productos where codigo = " // Instrucción sql
                 + producto.getCodigo(); // Para buscar un registro con el mismo id
         encontrado = buscar(buscar); // Ejecutamos el método con la consulta
@@ -44,7 +44,7 @@ public class ProductoDAO {
                 stm.close();
                 con.close();
             } catch (SQLException e) {
-                System.out.println("Error: Clase ProductoUsuarioDao, método agregarProducto");
+                System.out.println("Error: Clase ProductoDao, método agregarProducto");
                 e.printStackTrace();
             }
         }
