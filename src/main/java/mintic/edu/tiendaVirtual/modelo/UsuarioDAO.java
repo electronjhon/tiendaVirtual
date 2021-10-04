@@ -175,8 +175,10 @@ public class UsuarioDAO {
         boolean actualizar = false;
         String sql = "UPDATE usuario SET idUsuario = '" + usuario.getIdUsuario()
                 + "', nombreCompleto = '" + usuario.getNombreCompleto()
-                + "', correo = '"  + usuario.getCorreo() + "', nombreUsuario='" + usuario.getNombreUsuario() +"' , tipoUsuario='" + 
-                usuario.getTipoUsuario() + "'" + ", clave = '" + usuario.getClave() + "'"
+                + "', correo = '"  + usuario.getCorreo() 
+                + "', nombreUsuario='" + usuario.getNombreUsuario()
+                + "', clave = '" + usuario.getClave()
+                + "', tipoUsuario= '" + usuario.getTipoUsuario() + "'"
                 + " WHERE idUsuario = " + usuario.getIdUsuario();
         System.out.println(""+sql);
         try {

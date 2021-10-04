@@ -54,7 +54,6 @@ public class Controlador extends HttpServlet {
                     usuario.setNombreUsuario(nombreUsuario);
                     usuario.setClave(clave);
                     usuario.setTipoUsuario(tipoUsuario);
-                    usuarioDao.agregarUsuario(usuario);
                     boolean creado = usuarioDao.agregarUsuario(usuario);
                     if (creado) {
                         mensaje = "Usuario creado exitosamente";
@@ -94,6 +93,8 @@ public class Controlador extends HttpServlet {
                     usuario.setNombreUsuario(nombreUsuarioa);
                     usuario.setClave(clavea);
                     usuario.setTipoUsuario(tipoUsuarioa);
+                    request.getRequestDispatcher("Controlador?menu=Usuarios&accion=Listar").forward(request, response);
+                    break;
                 case "Eliminar":
                     int idUsuarioe = Integer.valueOf(request.getParameter("id"));
                     usuarioDao.eliminarUsuario(idUsuarioe);
