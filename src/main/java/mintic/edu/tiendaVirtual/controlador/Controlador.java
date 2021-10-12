@@ -243,7 +243,28 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("jsp/proveedor.jsp").forward(request, response);
 
         }
-        
+       
+        if (menu.equals("Ventas")) {
+            switch (accion) {
+                case "Listar":
+                    request.setAttribute("opcion", "LISTAR");
+                    break;
+                case "Agregar":
+                    break;
+                case "Editar":
+                    break;
+                case "Consultar":
+                    break;
+                case "Actualizar":
+                    break;
+                case "Eliminar":
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            request.getRequestDispatcher("jsp/facturas.jsp").forward(request, response);
+
+        }
         
     }
 

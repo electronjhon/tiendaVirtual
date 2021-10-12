@@ -48,14 +48,14 @@
                             Productos
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" class="btn btn-outline-light" href="#" target="myFrame">Listar Productos</a>
+                            <a class="dropdown-item" class="btn btn-outline-light" href="vistaArchivo.jsp" target="myFrame">Listar Productos</a>
                             <a class="dropdown-item" class="btn btn-outline-light" href="cargaProductos.html" target="myFrame">Cargar Archivo</a>
 
                         </div>
                     </li>
                      
                     <li class="nav-item">
-                        <a style= "margin-left: 10px; border:none;"  class="btn btn-outline-light" href="proximamente.html" 
+                        <a style= "margin-left: 10px; border:none;"  class="btn btn-outline-light" href="../Controlador?menu=Ventas&accion=Listar" 
                            target="myFrame">Ventas</a>
                     </li>
                     <li class="nav-item">
