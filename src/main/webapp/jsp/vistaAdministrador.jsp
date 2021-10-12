@@ -48,7 +48,7 @@
                             Productos
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" class="btn btn-outline-light" href="vistaArchivo.jsp" target="myFrame">Listar Productos</a>
+                            <a class="dropdown-item" class="btn btn-outline-light" href="../Controlador?menu=Productos&accion=Listar" target="myFrame">Listar Productos</a>
                             <a class="dropdown-item" class="btn btn-outline-light" href="cargaProductos.html" target="myFrame">Cargar Archivo</a>
 
                         </div>

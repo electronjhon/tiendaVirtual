@@ -69,4 +69,32 @@ public class ProductoDAO {
             }
         return encontrado;
     }
+    
+    public List<Producto> getProductos() {
+        String sql = "SELECT * FROM productos";
+
+        List<Producto> productos = new ArrayList<>();
+
+        try {
+            con = cn.Conexion();
+            stm = con.createStatement(); 
+            res = stm.executeQuery(sql);
+            while (res.next()) { // Recorrer todo el ResultSet
+                Producto pro = new Producto(); // Instanciamos un objeto tipo Producto
+                pro.setCodigo(res.getInt(1));
+                pro.setNombre(res.getString(2));
+                pro.setNitProveedor(res.getInt(3));
+                pro.setPrecioCompra(res.getDouble(4));
+                pro.setIva(res.getDouble(5));
+                pro.setPrecioVenta(res.getDouble(6));
+                productos.add(pro); // Agregarlo al ArrayList
+            }
+            stm.close(); // Cerrar toda la conexión a la BDs
+            res.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println("Error:" + e);
+        }
+        return productos; // Devuelve el ArrayList usuarios
+    }
 }

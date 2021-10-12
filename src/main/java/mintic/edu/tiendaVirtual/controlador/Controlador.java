@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mintic.edu.tiendaVirtual.modelo.Cliente;
 import mintic.edu.tiendaVirtual.modelo.ClienteDAO;
+import mintic.edu.tiendaVirtual.modelo.Producto;
+import mintic.edu.tiendaVirtual.modelo.ProductoDAO;
 import mintic.edu.tiendaVirtual.modelo.Proveedor;
 import mintic.edu.tiendaVirtual.modelo.ProveedorDAO;
 import mintic.edu.tiendaVirtual.modelo.Usuario;
@@ -27,6 +29,8 @@ public class Controlador extends HttpServlet {
     ClienteDAO clienteDao = new ClienteDAO();
     Proveedor proveedor = new Proveedor();
     ProveedorDAO proveedorDAO = new ProveedorDAO();
+    Producto producto = new Producto();
+    ProductoDAO productoDAO = new ProductoDAO();
     String mensaje = null, aviso = null;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -243,6 +247,31 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("jsp/proveedor.jsp").forward(request, response);
 
         }
+        
+        if (menu.equals("Productos")) {
+            switch (accion) {
+                case "Listar":
+                    List<Producto> productos = new ArrayList<>();
+                    productos = productoDAO.getProductos();
+                    request.setAttribute("productos", productos);
+                    break;
+                case "Agregar":
+                    break;
+                case "Editar":
+                    break;
+                case "Consultar":
+                    break;
+                case "Actualizar":
+                    break;
+                case "Eliminar":
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            request.getRequestDispatcher("jsp/productos.jsp").forward(request, response);
+
+        }
+        
        
         if (menu.equals("Ventas")) {
             switch (accion) {
