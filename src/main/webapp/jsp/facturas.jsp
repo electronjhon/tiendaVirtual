@@ -22,13 +22,13 @@
                             </div>
                             <div class="form-group d-flex">
                                 <div class="col-sm-4">
-                                    <input type="text" name="txtCedula" class="form-control" placeholder="Cédula del Cliente">
+                                    <input type="text" name="txtCedula"  value="${clienteFactura.getIdCliente()}" class="form-control" placeholder="Cédula del Cliente">
                                 </div>
                                 <div class="col-sm-2">
                                     <button type="submit" name="accion" value="buscarCliente" class="btn btn-outline-success">Consultar</button>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" name="txtNombreCliente" class="form-control" placeholder="Nombre del Cliente" readonly="">
+                                    <input type="text" name="txtNombreCliente"  value="${clienteFactura.getNombreCliente()}" class="form-control" placeholder="Nombre del Cliente" readonly="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -36,13 +36,13 @@
                             </div>
                             <div class="form-group d-flex">
                                 <div class="col-sm-4">
-                                    <input type="text" name="txtCodigo" class="form-control" placeholder="Código del Producto">
+                                    <input type="text" name="txtCodigo"  class="form-control" placeholder="Código del Producto">
                                 </div>
                                 <div class="col-sm-2">
                                     <button type="submit" name="accion" value="buscarProducto" class="btn btn-outline-info">Consultar</button>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" name="txtNombreProducto" class="form-control" placeholder="Nombre del Producto" readonly="">
+                                    <input type="text" name="txtNombreProducto"  value="${productoFactura.getNombre()}" class="form-control" placeholder="Nombre del Producto" readonly="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -56,8 +56,23 @@
                                     <input type="number" name="txtCantidad" class="form-control" value="1" style="text-align: right">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" name="txtPrecioVenta" class="form-control" placeholder="$/ 0.000.00" style="text-align: right" readonly="">
+                                    <input type="text" name="txtPrecioVenta"  value="${productoFactura.getPrecioVenta()}" class="form-control" placeholder="$/ 0.000.00" style="text-align: right" readonly="">
                                 </div>
+                            </div>
+                                <br>
+                            <div class="form-group d-flex">
+                               <c:if test="${mensaje != null}">
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="btn-close" data-dismiss="alert"></button>
+                        ${mensaje}
+                    </div>
+                </c:if>
+                <c:if test="${aviso != null}">
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="btn-close" data-dismiss="alert"></button>
+                        ${aviso}
+                    </div>
+                </c:if> 
                             </div>
                         </div>
                     </div>
@@ -67,7 +82,7 @@
                         <div class="card-header">
                             <div class="d-flex col-sm-6">
                                 <label>Factura de Venta No:</label>
-                                <input type="text" name="numeroFactura" class="form-control"  style="text-align: right" readonly="">
+                                <input type="text" name="numeroFactura"  value="${idVenta}" class="form-control"  style="text-align: right" readonly="">
                             </div>
                         </div>
                         <div class="card-body">

@@ -136,7 +136,7 @@ public class ClienteDAO {
                 cli.setTelefonoCliente(res.getString(5));
             }
             // cerramos el jdbc
-            stm.close();
+            ps.close();
             res.close();
             con.close();
         } catch (SQLException er) {
@@ -160,7 +160,7 @@ public class ClienteDAO {
                 clic.setTelefonoCliente(res.getString(5));
             }
             // cerramos el jdbc
-            stm.close();
+            ps.close();
             res.close();
             con.close();
         } catch (SQLException er) {

@@ -16,6 +16,8 @@ import mintic.edu.tiendaVirtual.modelo.Proveedor;
 import mintic.edu.tiendaVirtual.modelo.ProveedorDAO;
 import mintic.edu.tiendaVirtual.modelo.Usuario;
 import mintic.edu.tiendaVirtual.modelo.UsuarioDAO;
+import mintic.edu.tiendaVirtual.modelo.Venta;
+import mintic.edu.tiendaVirtual.modelo.VentaDAO;
 
 /**
  *
@@ -31,8 +33,13 @@ public class Controlador extends HttpServlet {
     ProveedorDAO proveedorDAO = new ProveedorDAO();
     Producto producto = new Producto();
     ProductoDAO productoDAO = new ProductoDAO();
+    Venta venta = new Venta();
+    VentaDAO ventaDao = new VentaDAO();
     String mensaje = null, aviso = null;
-    
+    int cedulaCliente = 0;
+    int codigoProducto = 0;
+    int numeroFactura = 0;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String menu = request.getParameter("menu");
@@ -40,7 +47,7 @@ public class Controlador extends HttpServlet {
         if (menu.equals("Usuarios")) {
             switch (accion) {
                 case "Listar":
-                    String tipos [] = {"Administrador","Vendedor"}; 
+                    String tipos[] = {"Administrador", "Vendedor"};
                     request.setAttribute("usuarios", usuarioDao.getUsuarios());
                     request.setAttribute("tipos", tipos);
                     request.setAttribute("usuarioEdit", new Usuario());
@@ -73,7 +80,7 @@ public class Controlador extends HttpServlet {
                 case "Editar":
                     int ideu = Integer.valueOf(request.getParameter("id"));
                     Usuario usu = new Usuario();
-                    String [] categorias = {"Administrador","Vendedor"};
+                    String[] categorias = {"Administrador", "Vendedor"};
                     usu = usuarioDao.getUsuarioId(ideu);
                     request.setAttribute("usuarioEdit", usu);
                     request.setAttribute("categorias", categorias);
@@ -113,7 +120,7 @@ public class Controlador extends HttpServlet {
         if (menu.equals("Clientes")) {
             switch (accion) {
                 case "Listar":
-                    String tipos [] = {"Administrador","Vendedor"}; 
+                    String tipos[] = {"Administrador", "Vendedor"};
                     request.setAttribute("clientes", clienteDao.getClientes());
                     request.setAttribute("tipos", tipos);
                     request.setAttribute("clienteEdit", new Cliente());
@@ -178,11 +185,11 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("jsp/cliente.jsp").forward(request, response);
 
         }
-        
+
         if (menu.equals("Proveedores")) {
             switch (accion) {
                 case "Listar":
-                    String tipos [] = {"Administrador","Vendedor"}; 
+                    String tipos[] = {"Administrador", "Vendedor"};
                     request.setAttribute("proveedores", proveedorDAO.getProveedores());
                     request.setAttribute("tipos", tipos);
                     request.setAttribute("proveedorEdit", new Proveedor());
@@ -247,7 +254,7 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("jsp/proveedor.jsp").forward(request, response);
 
         }
-        
+
         if (menu.equals("Productos")) {
             switch (accion) {
                 case "Listar":
@@ -271,18 +278,61 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("jsp/productos.jsp").forward(request, response);
 
         }
-        
-       
+
         if (menu.equals("Ventas")) {
             switch (accion) {
                 case "Listar":
-                    request.setAttribute("opcion", "LISTAR");
+                    numeroFactura = ventaDao.calcularIdVenta();
+                    numeroFactura += 1;
+                    request.setAttribute("idVenta", numeroFactura);
                     break;
                 case "Agregar":
                     break;
                 case "Editar":
                     break;
+                case "buscarCliente":
+                    if (request.getParameter("txtCedula").isEmpty()) {
+                        aviso = "Error, cédula del cliente en blanco. Reintente";
+                        mensaje = null;
+                    } else {
+                        cedulaCliente = Integer.parseInt(request.getParameter("txtCedula"));
+                        cliente = clienteDao.getClienteId(cedulaCliente);
+                        if (cliente.getNombreCliente() == null) {
+                            aviso = "Cédula no se encuentra registrada en la base de datos";
+                            mensaje = null;
+                        } else {
+                            aviso = null;
+                            mensaje = "Busqueda de cliente exitosa";
+                        }
+                    }
+
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
+                    request.setAttribute("clienteFactura", cliente);
+                    break;
                 case "Consultar":
+                    break;
+                case "buscarProducto":
+                    if (request.getParameter("txtCodigo").isEmpty()) {
+                        aviso = "Código del producto en blanco. Reintente";
+                        mensaje = null;
+                    } else {
+                        codigoProducto = Integer.parseInt(request.getParameter("txtCodigo"));
+                        //implementar en el DAO el método de buscar un producto por el código
+                        producto = productoDAO.buscarProductoId(codigoProducto);
+                        if (producto.getNombre() == null) {
+                            aviso = "Código del producto no se encuentra registrada en la base de datos";
+                            mensaje = null;
+                        } else {
+                            aviso = null;
+                            mensaje = "Búsqueda de producto exitosa";
+                        }
+                    }
+
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
+                    request.setAttribute("clienteFactura", cliente);
+                    request.setAttribute("productoFactura", producto);
                     break;
                 case "Actualizar":
                     break;
@@ -294,7 +344,7 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("jsp/facturas.jsp").forward(request, response);
 
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -97,4 +97,29 @@ public class ProductoDAO {
         }
         return productos; // Devuelve el ArrayList usuarios
     }
+    
+    public Producto buscarProductoId(int codigo) {
+        String sql = "SELECT * FROM productos WHERE codigo=" + codigo;
+        Producto pro = new Producto();
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            res = ps.executeQuery();
+            while (res.next()) {
+                pro.setCodigo(res.getInt(1));
+                pro.setNombre(res.getString(2));
+                pro.setNitProveedor(res.getInt(3));
+                pro.setPrecioCompra(res.getDouble(4));
+                pro.setIva(res.getDouble(5));
+                pro.setPrecioVenta(res.getDouble(6));
+            }
+            // cerramos el jdbc
+            ps.close();
+            res.close();
+            con.close();
+        } catch (SQLException er) {
+            System.err.println("Error:" + er);
+        }
+        return pro;
+    }
 }
