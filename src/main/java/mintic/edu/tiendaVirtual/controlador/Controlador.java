@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mintic.edu.tiendaVirtual.modelo.Cliente;
 import mintic.edu.tiendaVirtual.modelo.ClienteDAO;
+import mintic.edu.tiendaVirtual.modelo.DetalleVenta;
 import mintic.edu.tiendaVirtual.modelo.Producto;
 import mintic.edu.tiendaVirtual.modelo.ProductoDAO;
 import mintic.edu.tiendaVirtual.modelo.Proveedor;
@@ -35,10 +36,24 @@ public class Controlador extends HttpServlet {
     ProductoDAO productoDAO = new ProductoDAO();
     Venta venta = new Venta();
     VentaDAO ventaDao = new VentaDAO();
+    DetalleVenta detalleVenta = new DetalleVenta();
+    List<DetalleVenta> detalleVentas = new ArrayList<DetalleVenta>();
     String mensaje = null, aviso = null;
     int cedulaCliente = 0;
     int codigoProducto = 0;
     int numeroFactura = 0;
+    int item = 0;
+    int idProducto = 0;
+    String descripcion = null;
+    int cantidadProducto = 0;
+    double precioVenta = 0;
+    double valorTotal = 0;
+    double valorVenta = 0;
+    double valorIva = 0;
+    double subtotal = 0;
+    double totalIva = 0;
+    double totalFactura = 0;
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -286,7 +301,36 @@ public class Controlador extends HttpServlet {
                     numeroFactura += 1;
                     request.setAttribute("idVenta", numeroFactura);
                     break;
-                case "Agregar":
+                case "agregarProducto":
+                    item +=1;
+                    codigoProducto = Integer.parseInt(request.getParameter("txtCodigo"));
+                    descripcion = request.getParameter("txtNombreProducto");
+                    cantidadProducto = Integer.parseInt(request.getParameter("txtCantidad"));
+                    precioVenta = Double.parseDouble(request.getParameter("txtPrecioVenta"));
+                    valorVenta = precioVenta * cantidadProducto;
+                    //alorIva = Math.round((valorVenta * producto.getIva() / 100) * 100 / 100);
+                    valorIva = Math.round(valorVenta * producto.getIva() / 100);
+                    valorTotal = valorVenta + valorIva;
+                    subtotal += valorVenta;
+                    totalIva += valorIva;
+                    detalleVenta = new DetalleVenta();
+                    detalleVenta.setCod_detalle(item);
+                    detalleVenta.setDescripcion(descripcion);
+                    detalleVenta.setCantidadProducto(cantidadProducto);
+                    detalleVenta.setCodigo(codigoProducto);
+                    detalleVenta.setPrecioVenta(precioVenta);
+                    detalleVenta.setValorVenta(valorVenta);
+                    detalleVentas.add(detalleVenta);
+                    totalFactura = subtotal + totalIva;
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
+                    request.setAttribute("idVenta", numeroFactura);
+                    request.setAttribute("clienteFactura", cliente);
+                    request.setAttribute("productoFactura", producto);
+                    request.setAttribute("detalleVentas", detalleVentas);
+                    request.setAttribute("subtotal", subtotal);
+                    request.setAttribute("totalIva", totalIva);
+                    request.setAttribute("totalFactura", totalFactura);
                     break;
                 case "Editar":
                     break;
@@ -308,6 +352,7 @@ public class Controlador extends HttpServlet {
 
                     request.setAttribute("mensaje", mensaje);
                     request.setAttribute("aviso", aviso);
+                    request.setAttribute("idVenta", numeroFactura);
                     request.setAttribute("clienteFactura", cliente);
                     break;
                 case "Consultar":
@@ -331,6 +376,8 @@ public class Controlador extends HttpServlet {
 
                     request.setAttribute("mensaje", mensaje);
                     request.setAttribute("aviso", aviso);
+                    request.setAttribute("idVenta", numeroFactura);
+                    request.setAttribute("detalleVentas", detalleVentas);
                     request.setAttribute("clienteFactura", cliente);
                     request.setAttribute("productoFactura", producto);
                     break;

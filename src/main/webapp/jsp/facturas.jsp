@@ -36,7 +36,7 @@
                             </div>
                             <div class="form-group d-flex">
                                 <div class="col-sm-4">
-                                    <input type="text" name="txtCodigo"  class="form-control" placeholder="Código del Producto">
+                                    <input type="text" name="txtCodigo"  value="${productoFactura.getCodigo()}" class="form-control" placeholder="Código del Producto">
                                 </div>
                                 <div class="col-sm-2">
                                     <button type="submit" name="accion" value="buscarProducto" class="btn btn-outline-info">Consultar</button>
@@ -99,14 +99,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                        <c:forEach items="${detalleVentas}" var="lista">
+                                            <tr>
+                                            <td>${lista.getCod_detalle()}</td>
+                                            <td>${lista.getCodigo()}</td>
+                                            <td>${lista.getDescripcion()}</td>
+                                            <td>${lista.getPrecioVenta()}</td>
+                                            <td>${lista.getCantidadProducto()}</td>
+                                            <td>${lista.getValorVenta()}</td>
                                         </tr>
+                                        </c:forEach>
+                                        
                                     </tbody>
                                 </table>
 
@@ -127,7 +130,7 @@
                                                 <label>Subtotal:</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="txtSubtotal" class="form-control"  style="text-align: right" readonly="" placeholder="$/ 0.000.00">
+                                                <input type="text" name="txtSubtotal" value="${subtotal}" class="form-control"  style="text-align: right" readonly="" placeholder="$/ 0.000.00">
                                             </td>
                                         </tr>
                                         <tr>
@@ -137,7 +140,7 @@
                                                 <label>Valor IVA:</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="txtIva" class="form-control"  style="text-align: right" readonly="" placeholder="$/ 0.000.00">
+                                                <input type="text" name="txtIva"  value="${totalIva}" class="form-control"  style="text-align: right" readonly="" placeholder="$/ 0.000.00">
                                             </td>
                                         </tr>
                                         <tr>
@@ -147,7 +150,7 @@
                                                 <label>Total con IVA:</label>
                                             </td>
                                             <td>
-                                                <input type="text" name="txtTotal" class="form-control"  style="text-align: right" readonly="" placeholder="$/ 0.000.00">
+                                                <input type="text" name="txtTotal"  value="${totalFactura}" class="form-control"  style="text-align: right" readonly="" placeholder="$/ 0.000.00">
                                             </td>
                                         </tr>
                                     </tbody>
