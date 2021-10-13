@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import mintic.edu.tiendaVirtual.modelo.Cliente;
 import mintic.edu.tiendaVirtual.modelo.ClienteDAO;
 import mintic.edu.tiendaVirtual.modelo.DetalleVenta;
+import mintic.edu.tiendaVirtual.modelo.DetalleVentaDAO;
 import mintic.edu.tiendaVirtual.modelo.Producto;
 import mintic.edu.tiendaVirtual.modelo.ProductoDAO;
 import mintic.edu.tiendaVirtual.modelo.Proveedor;
@@ -38,6 +39,7 @@ public class Controlador extends HttpServlet {
     Venta venta = new Venta();
     VentaDAO ventaDao = new VentaDAO();
     DetalleVenta detalleVenta = new DetalleVenta();
+    DetalleVentaDAO detalleVentaDAO = new DetalleVentaDAO();
     List<DetalleVenta> detalleVentas = new ArrayList<DetalleVenta>();
     String mensaje = null, aviso = null;
     int cedulaCliente = 0;
@@ -306,6 +308,11 @@ public class Controlador extends HttpServlet {
         if (menu.equals("Ventas")) {
             switch (accion) {
                 case "Listar":
+                    item = 0;
+                    subtotal = 0;
+                    totalIva = 0;
+                    totalFactura = 0;
+                    detalleVentas = new ArrayList<DetalleVenta>();
                     numeroFactura = ventaDao.calcularIdVenta();
                     numeroFactura += 1;
                     request.setAttribute("idVenta", numeroFactura);
@@ -332,13 +339,27 @@ public class Controlador extends HttpServlet {
                         mensaje = null;
                         aviso = "No se pudo crear la factura";
                     }
-                    request.setAttribute("mensaje", mensaje);
+                    //agregar los datos a la tabla detalleVenta
+                    int numeroProductos = 0;
+                    for(DetalleVenta detalleVenta:detalleVentas) {
+                        //insertar el registro en la tabla
+                        detalleVentaDAO.agregarDetalleVenta(detalleVenta);
+                        numeroProductos += 1;
+                        //System.out.println("Datos de venta por productos: " + detalleVenta.toString());
+                    }
+                    
+                    request.setAttribute("mensaje", mensaje + "Productos en factura: " + numeroProductos);
                     request.setAttribute("aviso", aviso);
+                    request.getRequestDispatcher("Controlador?menu=Ventas&accion=Listar").forward(request, response);
                     break;
                 case "cancelarFactura":
+                    request.setAttribute("aviso", "Se canceló la factura");
+                    request.setAttribute("mensaje", "Se inicia una nueva factura");
+                    request.getRequestDispatcher("Controlador?menu=Ventas&accion=Listar").forward(request, response);
                     break;
                 case "agregarProducto":
                     item +=1;
+                    numeroFactura = Integer.parseInt(request.getParameter("numeroFactura"));
                     codigoProducto = Integer.parseInt(request.getParameter("txtCodigo"));
                     descripcion = request.getParameter("txtNombreProducto");
                     cantidadProducto = Integer.parseInt(request.getParameter("txtCantidad"));
@@ -351,11 +372,14 @@ public class Controlador extends HttpServlet {
                     totalIva += valorIva;
                     detalleVenta = new DetalleVenta();
                     detalleVenta.setCod_detalle(item);
+                    detalleVenta.setCod_venta(numeroFactura);
                     detalleVenta.setDescripcion(descripcion);
                     detalleVenta.setCantidadProducto(cantidadProducto);
                     detalleVenta.setCodigo(codigoProducto);
                     detalleVenta.setPrecioVenta(precioVenta);
                     detalleVenta.setValorVenta(valorVenta);
+                    detalleVenta.setValorIva(valorIva);
+                    detalleVenta.setValorTotal(valorTotal);
                     detalleVentas.add(detalleVenta);
                     totalFactura = subtotal + totalIva;
                     request.setAttribute("mensaje", mensaje);

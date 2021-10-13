@@ -124,7 +124,7 @@
                                                 <button type="submit" name="accion" value="generarFactura" class="btn btn-success">Generar Factura</button>  
                                             </td>
                                             <td>
-                                                <button type="submit" name="accion" value="cancelarFactura" class="btn btn-danger">Cancelar Registro</button>  
+                                                <button type="submit" name="accion" value="cancelarFactura" class="btn btn-danger">Cancelar Factura</button>  
                                             </td>
                                             <td>
                                                 <label>Subtotal:</label>
