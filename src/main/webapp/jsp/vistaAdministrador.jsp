@@ -72,6 +72,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#"><img src="../img/user.png" height="50" width="50"></a>
+                            <a class="dropdown-item" href="#">${objusuario.getIdUsuario()}</a>
                             <a class="dropdown-item" href="#">${objusuario.getTipoUsuario()}</a>
                             <a class="dropdown-item" href="#">${objusuario.getCorreo()}</a>
                             <div class="dropdown-divider"></div>

@@ -27,7 +27,7 @@ public class UsuarioDAO {
         try 
         {
             con = cn.Conexion();
-            String sql = "select tipoUsuario, correo from usuario where nombreUsuario=? and clave=?";
+            String sql = "select tipoUsuario, correo, idUsuario from usuario where nombreUsuario=? and clave=?";
             ps =con.prepareStatement(sql);
             ps.setString(1, usu.getNombreUsuario());
             ps.setString(2, usu.getClave());
@@ -37,6 +37,7 @@ public class UsuarioDAO {
             }
             usu.setTipoUsuario(rs.getString("tipoUsuario"));
             usu.setCorreo(rs.getString("correo"));
+            usu.setIdUsuario(rs.getInt("idUsuario"));
         } catch (Exception e) {
             System.err.println("Error:" + e);
         }

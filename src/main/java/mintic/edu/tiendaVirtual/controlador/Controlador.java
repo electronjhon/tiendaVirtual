@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import mintic.edu.tiendaVirtual.modelo.Cliente;
 import mintic.edu.tiendaVirtual.modelo.ClienteDAO;
 import mintic.edu.tiendaVirtual.modelo.DetalleVenta;
@@ -53,10 +54,18 @@ public class Controlador extends HttpServlet {
     double subtotal = 0;
     double totalIva = 0;
     double totalFactura = 0;
+    Usuario usuarioVenta = new Usuario();
+    int idUsuario = 0;
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession objSesionVentas = request.getSession(); //se define variable de tipo sesion
+        usuarioVenta =  (Usuario) objSesionVentas.getAttribute("objusuario"); //recuperar objusuario con casting
+        //imprimir para verificar si se recupero el objusuario
+        System.out.println("Usuario: " + usuarioVenta.getIdUsuario() + " -Correo: " + usuarioVenta.getCorreo());
+        //almacenar el valor en la variable idUsuario
+        idUsuario = usuarioVenta.getIdUsuario();
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
         if (menu.equals("Usuarios")) {
@@ -300,6 +309,33 @@ public class Controlador extends HttpServlet {
                     numeroFactura = ventaDao.calcularIdVenta();
                     numeroFactura += 1;
                     request.setAttribute("idVenta", numeroFactura);
+                    break;
+                case "generarFactura":
+                    //recuperar los valores de las variables a usar en ventas
+                    cedulaCliente = Integer.parseInt(request.getParameter("txtCedula"));
+                    totalIva = Double.parseDouble(request.getParameter("txtIva"));
+                    subtotal = Double.parseDouble(request.getParameter("txtSubtotal"));
+                    totalFactura = Double.parseDouble(request.getParameter("txtTotal"));
+                    //Hacer set a las variables para confirmarlas en el objeto venta
+                    venta.setCod_venta(numeroFactura);
+                    venta.setIdCliente(cedulaCliente);
+                    venta.setIdUsuario(idUsuario);
+                    venta.setIvaVenta(totalIva);
+                    venta.setValorVenta(subtotal);
+                    venta.setTotalVenta(totalFactura);
+                    //agregar el objeto a la tabla venta
+                    boolean crearVenta = ventaDao.agregarVenta(venta);
+                    if (crearVenta){
+                        mensaje = "Factura creada exitosamente";
+                        aviso = null;
+                    }else {
+                        mensaje = null;
+                        aviso = "No se pudo crear la factura";
+                    }
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
+                    break;
+                case "cancelarFactura":
                     break;
                 case "agregarProducto":
                     item +=1;
