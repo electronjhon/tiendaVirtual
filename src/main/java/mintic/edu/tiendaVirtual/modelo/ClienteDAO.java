@@ -70,7 +70,7 @@ public class ClienteDAO {
         } catch (SQLException e) {
             System.err.println("Error:" + e);
         }
-        return clientes; // Devuelve el ArrayList usuarios
+        return clientes; // Devuelve el ArrayList clientes
     }
     
     public boolean agregarCliente(Cliente cliente) {

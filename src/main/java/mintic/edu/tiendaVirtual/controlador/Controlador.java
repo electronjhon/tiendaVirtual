@@ -17,6 +17,8 @@ import mintic.edu.tiendaVirtual.modelo.Producto;
 import mintic.edu.tiendaVirtual.modelo.ProductoDAO;
 import mintic.edu.tiendaVirtual.modelo.Proveedor;
 import mintic.edu.tiendaVirtual.modelo.ProveedorDAO;
+import mintic.edu.tiendaVirtual.modelo.ReporteCliente;
+import mintic.edu.tiendaVirtual.modelo.ReporteVenta;
 import mintic.edu.tiendaVirtual.modelo.Usuario;
 import mintic.edu.tiendaVirtual.modelo.UsuarioDAO;
 import mintic.edu.tiendaVirtual.modelo.Venta;
@@ -58,12 +60,13 @@ public class Controlador extends HttpServlet {
     double totalFactura = 0;
     Usuario usuarioVenta = new Usuario();
     int idUsuario = 0;
-    
+    ReporteVenta reporteVenta= new ReporteVenta();
+    //ReporteCliente reporteCliente=new ReporteCliente();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession objSesionVentas = request.getSession(); //se define variable de tipo sesion
-        usuarioVenta =  (Usuario) objSesionVentas.getAttribute("objusuario"); //recuperar objusuario con casting
+        usuarioVenta = (Usuario) objSesionVentas.getAttribute("objusuario"); //recuperar objusuario con casting
         //imprimir para verificar si se recupero el objusuario
         System.out.println("Usuario: " + usuarioVenta.getIdUsuario() + " -Correo: " + usuarioVenta.getCorreo());
         //almacenar el valor en la variable idUsuario
@@ -332,22 +335,22 @@ public class Controlador extends HttpServlet {
                     venta.setTotalVenta(totalFactura);
                     //agregar el objeto a la tabla venta
                     boolean crearVenta = ventaDao.agregarVenta(venta);
-                    if (crearVenta){
+                    if (crearVenta) {
                         mensaje = "Factura creada exitosamente";
                         aviso = null;
-                    }else {
+                    } else {
                         mensaje = null;
                         aviso = "No se pudo crear la factura";
                     }
                     //agregar los datos a la tabla detalleVenta
                     int numeroProductos = 0;
-                    for(DetalleVenta detalleVenta:detalleVentas) {
+                    for (DetalleVenta detalleVenta : detalleVentas) {
                         //insertar el registro en la tabla
                         detalleVentaDAO.agregarDetalleVenta(detalleVenta);
                         numeroProductos += 1;
                         //System.out.println("Datos de venta por productos: " + detalleVenta.toString());
                     }
-                    
+
                     request.setAttribute("mensaje", mensaje + "Productos en factura: " + numeroProductos);
                     request.setAttribute("aviso", aviso);
                     request.getRequestDispatcher("Controlador?menu=Ventas&accion=Listar").forward(request, response);
@@ -358,7 +361,7 @@ public class Controlador extends HttpServlet {
                     request.getRequestDispatcher("Controlador?menu=Ventas&accion=Listar").forward(request, response);
                     break;
                 case "agregarProducto":
-                    item +=1;
+                    item += 1;
                     numeroFactura = Integer.parseInt(request.getParameter("numeroFactura"));
                     codigoProducto = Integer.parseInt(request.getParameter("txtCodigo"));
                     descripcion = request.getParameter("txtNombreProducto");
@@ -449,6 +452,70 @@ public class Controlador extends HttpServlet {
                     throw new AssertionError();
             }
             request.getRequestDispatcher("jsp/facturas.jsp").forward(request, response);
+
+        }
+
+        if (menu.equals("Reportes")) {
+            switch (accion) {
+                case "Usuarios":
+                    request.setAttribute("usuarios", usuarioDao.getUsuarios());
+                    if(usuarioDao.getUsuarios().size()==0){
+                        aviso="No existen usuarios en la base de datos";
+                        mensaje=null;
+                    } else {
+                        aviso=null;
+                        mensaje="Reporte de usuarios generado exitosamente";
+                    }
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
+                    request.getRequestDispatcher("jsp/reporteUsuarios.jsp").forward(request, response);
+                    break;
+                case "Clientes":
+                    request.setAttribute("clientes", clienteDao.getClientes());
+                    if(clienteDao.getClientes().size()==0){
+                        aviso="No existen clientes en la base de datos";
+                        mensaje=null;
+                    } else {
+                        aviso=null;
+                        mensaje="Reporte de Clientes generado exitosamente";
+                    }
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
+                    request.getRequestDispatcher("jsp/reporteClientes.jsp").forward(request, response);
+                    
+                    break;
+                case "Ventas":
+                    String titulo="Total de Ventas por Cliente";
+                    double sumaVentas=0;
+                    List<ReporteVenta> reporteVentas = new ArrayList<ReporteVenta>();
+                    reporteVentas = ventaDao.verReporteVenta();
+                    if(reporteVentas.size()==0){
+                        aviso="El reporte de ventas no tiene datos";
+                        mensaje=null;
+                    } else {
+                        for(ReporteVenta reporteVenta:reporteVentas){
+                            sumaVentas+=reporteVenta.getVentaTotal();
+                        }
+                        aviso=null;
+                        mensaje="Reporte de ventas generado exitosamente";
+                    }
+                    request.setAttribute("titulo", titulo);
+                    request.setAttribute("mensaje", mensaje);
+                    request.setAttribute("aviso", aviso);
+                    request.setAttribute("sumaVentas", sumaVentas);
+                    request.setAttribute("reporteVentas", reporteVentas);
+                    request.getRequestDispatcher("jsp/reporteVentas.jsp").forward(request, response);
+                    break;
+                case "Consultar":
+                    break;
+                case "Actualizar":
+                    break;
+                case "Eliminar":
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            
 
         }
 

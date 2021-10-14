@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -86,4 +88,35 @@ public class VentaDAO {
         }
         return encontrado;
     }
+    
+    public List<ReporteVenta> verReporteVenta() {
+        String sql = "Select v.idCliente, c.nombreCliente, sum(v.totalVenta) as totalVenta "
+                + "from venta v, cliente c "
+                + "where v.idCliente=c.idCliente "
+                + "group by v.idCliente, c.nombreCliente";
+        
+        System.out.println("Comando SQL: "+sql);
+
+        List<ReporteVenta> reporteVentas = new ArrayList<>();
+
+        try {
+            con = cn.Conexion();
+            stm = con.createStatement(); 
+            res = stm.executeQuery(sql);
+            while (res.next()) { // Recorrer todo el ResultSet
+                ReporteVenta repv = new ReporteVenta(); // Instanciamos un objeto tipo ReporteVenta
+                repv.setIdCliente(res.getInt(1));
+                repv.setNombreCliente(res.getString(2));
+                repv.setVentaTotal(res.getDouble(3));
+                reporteVentas.add(repv); // Agregarlo al ArrayList
+            }
+            stm.close(); // Cerrar toda la conexión a la BDs
+            res.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println("Error:" + e);
+        }
+        return reporteVentas; // Devuelve el ArrayList usuarios
+    }
+    
 }

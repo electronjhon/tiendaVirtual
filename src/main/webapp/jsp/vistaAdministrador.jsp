@@ -59,7 +59,7 @@
                            target="myFrame">Ventas</a>
                     </li>
                     <li class="nav-item">
-                        <a style= "margin-left: 10px; border:none;"  class="btn btn-outline-light" href="proximamente.html"
+                        <a style= "margin-left: 10px; border:none;"  class="btn btn-outline-light" href="reportes.html"
                            target="myFrame">Reportes</a>
                     </li>
 
